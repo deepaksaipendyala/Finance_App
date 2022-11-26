@@ -11,6 +11,7 @@
 
 
     $ redis-server
+  python -m pip install -r requirements.txt
     $ source ./env/bin/activate
     $ celery -A plaid_django worker -l info
     $ python manage.py runserver
