@@ -9,8 +9,15 @@
 
 * Each `​Item​` can have many associated accounts, which hold information such as balance, name, and account type
 
-``` $ python -m pip install -r requirements.txt ```
-``` $ source ./env/bin/activate ```
-``` $ redis-server ```
-``` $ celery -A plaid_django worker -l info```
-``` $ python manage.py runserver 0.0.0.0:3000 ```
+## Demo:
+[1](images/1.png)
+[2](images/2.png)
+[3](images/3.png)
+[4](images/4.png)
+
+## Commands to run the app
+- ``` $ python -m pip install -r requirements.txt ```
+- ``` $ source ./env/bin/activate ```
+- ``` $ redis-server ```
+- ``` $ celery -A plaid_django worker -l info```
+-  ``` $ python manage.py runserver 0.0.0.0:3000 ```
