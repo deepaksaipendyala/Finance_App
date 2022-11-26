@@ -13,10 +13,10 @@ name, and account type
 
 
 ## Demo:
-[1](media/1.png)
-[2](media/2.png)
-[3](media/3.png)
-[4](media/4.png)
+![1](media/1.png)
+![2](media/2.png)
+![3](media/3.png)
+![4](media/4.png)
 
 ## Commands to run the app
 - ``` $ python -m pip install -r requirements.txt ```
