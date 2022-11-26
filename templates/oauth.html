@@ -1,3 +1,16 @@
+<div class="container">
+    <p class="initial-view__description">
+    <h1> Heyy, You're almost there!
+    
+    <ul>
+  <li>Click the button below to link your account.</li>
+  <li>Select your bank from list and enter your credentials. ( Psst.. we'll keep it safe!, No worries ).</li>
+  <li>Get to know under the hood: You'll go through a Authenication procedure later which a public token will be received back by us and will get exchanged for access token everytime you open our web and do your work.</li>
+      <li> Happy Spending! </li>
+</ul>
+    </h1>
+    </p>
+  
 <button id="link-button">Link Account</button>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
@@ -48,67 +61,3 @@
 })(jQuery);
 </script>
 
-<!-- <div class="container">
-    <p class="initial-view__description">
-    <h1>Click the button below to open a list of Institutions. After you select one, you’ll be guided through an authentication process. Upon completion, a public_token will be passed back to the server and exchanged for access_token.</h1>
-    </p>
-<button id="link-button">Link Account</button>
-<link rel="stylesheet" href="https://threads.plaid.com/threads.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
-<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
-<script type="text/javascript">
-    (function ($) {
-        var handler = Plaid.create({
-            clientName: 'Plaid Quickstart',
-            // Optional, specify an array of ISO-3166-1 alpha-2 country
-            // codes to initialize Link; European countries will have GDPR
-            // consent panel
-            countryCodes: ['US'],
-            env: 'sandbox',
-            // Replace with your public_key from the Dashboard
-            key: "{{ plaid_public_key }}",
-            product: ['transactions'],
-            // Optional, use webhooks to get transaction and error updates
-            webhook: 'https://requestb.in',
-            // Optional, specify a language to localize Link
-            language: 'en',
-            onLoad: function () {
-                // Optional, called when Link loads
-            },
-            onSuccess: function (public_token, metadata) {
-                // Send the public_token to your app server.
-                // The metadata object contains info about the institution the
-                // user selected and the account ID or IDs, if the
-                // Select Account view is enabled.
-
-                $.ajax({
-                    url: "/api/get_access_token/",
-                    type: 'POST',
-                    headers: {
-                        "X-CSRFToken": '{{ csrf_token }}'
-                    },
-                    data: { 'public_token': public_token },
-
-                    success: function (response) {
-                        window.location.href = "/home/";
-                    }
-
-
-                });
-            },
-            onExit: function (err, metadata) {
-                // The user exited the Link flow.
-                if (err != null) {
-                }
-            },
-            onEvent: function (eventName, metadata) {
-            }
-        });
-
-        $('#link-button').on('click', function (e) {
-            handler.open();
-        });
-    })(jQuery);
-</script>
-</div>
- -->

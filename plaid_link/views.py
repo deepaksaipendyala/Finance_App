@@ -4,12 +4,15 @@ import plaid
 from plaid.api import plaid_api
 from plaid.model.link_token_create_request import LinkTokenCreateRequest
 from plaid.model.link_token_create_request_user import LinkTokenCreateRequestUser
+from plaid.model.item_public_token_exchange_request import ItemPublicTokenExchangeRequest
 from plaid.model.products import Products
 from plaid.model.country_code import CountryCode
 from plaid_django.settings import LOGIN_REDIRECT_URL
 from .models import Item
 import os
 from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+
 
 # environment variable
 PLAID_CLIENT_ID = os.getenv('PLAID_CLIENT_ID')
@@ -35,6 +38,30 @@ client = plaid_api.PlaidApi(api_client)
 access_token = None
 item_id = None
 
+
+@csrf_exempt
+def create_link_token(request):
+    # Get the client_user_id by searching for the current user
+    user = 'user_good'
+    client_user_id = user
+    # Create a link_token for the given user
+    request = LinkTokenCreateRequest(
+            products=[Products("auth")],
+            client_name="Plaid Test App",
+            country_codes=[CountryCode('US')],
+            redirect_uri='https://financeapp.deepaksaip.repl.co/oauth.html',
+            language='en',
+            webhook='https://financeapp.deepaksaip.repl.co/webhook',
+            user=LinkTokenCreateRequestUser(
+                client_user_id=client_user_id
+            )
+        )
+    response = client.link_token_create(request)
+    # Send the data to the client
+    return JsonResponse(response.to_dict())
+
+
+@csrf_exempt
 def exchange_public_token():
     global access_token
     public_token = request.form['public_token']
@@ -46,71 +73,9 @@ def exchange_public_token():
     # associated with the currently signed-in user
     access_token = response['access_token']
     item_id = response['item_id']
-    return jsonify({'public_token_exchange': 'complete'})
+    return JsonResponse({'public_token_exchange': 'complete'})
 
 
-@csrf_exempt
-def get_access_token(request):
-    global access_token
-    global item_id
-    public_token = request.POST['public_token']
-
-    try:
-        p = PlaidCredential.objects.get(user=request.user)
-        request.session["access_token"] = p.access_token
-        return JsonResponse({'error': None, 'access_token': p.access_token})
-    except PlaidCredential.DoesNotExist:
-        pass
-
-    try:
-        exchange_response = client.Item.public_token.exchange(public_token)
-    except plaid.errors.PlaidError as e:
-        return JsonResponse(format_error(e))
-
-    pretty_print_response(exchange_response)
-    request.session["access_token"] = exchange_response['access_token']
-    item_id = exchange_response['item_id']
-
-    PlaidCredential.objects.create(user=request.user,
-                                   access_token=exchange_response['access_token'],
-    ).save()
-    print("YESS1")
-    return JsonResponse(exchange_response)
-
-def pretty_print_response(response):
-    print(json.dumps(response, indent=2, sort_keys=True))
-
-
-@login_required(login_url=LOGIN_REDIRECT_URL)
-def get_access_token(request):
-    global access_token
-    global item_id
-    public_token = request.POST['public_token']
-    print("YESS2")
-
-    try:
-        p = PlaidCredential.objects.get(user=request.user)
-        request.session["access_token"] = p.access_token
-        return JsonResponse({'error': None, 'access_token': p.access_token})
-    except PlaidCredential.DoesNotExist:
-        pass
-
-    try:
-        exchange_response = client.Item.public_token.exchange(public_token)
-    except plaid.errors.PlaidError as e:
-        return JsonResponse(format_error(e))
-
-    pretty_print_response(exchange_response)
-    request.session["access_token"] = exchange_response['access_token']
-    item_id = exchange_response['item_id']
-
-    PlaidCredential.objects.create(user=request.user,
-                                   access_token=exchange_response['access_token'],
-    ).save()
-
-    return JsonResponse(exchange_response)
-
-  
 @login_required(login_url=LOGIN_REDIRECT_URL)
 def index(request):
     keys = {

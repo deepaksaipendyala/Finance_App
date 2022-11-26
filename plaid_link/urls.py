@@ -9,11 +9,11 @@ urlpatterns = [
     path("login/", views.loginview, name='login'),
 
     # Below API calls use POST method
-    path("create_link_token/", views.exchange_public_token,name='create_link_token'),
+    path("create_link_token/", views.create_link_token,name='create_link_token'),
     path('api/signup/', views_api.UserCreate.as_view(), name='user-create'),
     path('api/login/', views_api.UserLogin.as_view(), name='user-login'),
     path('api/logout/', views_api.UserLogout.as_view(), name='user-logout'),
-    path('api/get_access_token/', views_api.get_access_token.as_view(), name='get-access-token'),
+    path('api/get_access_token/', views.exchange_public_token, name='exchange_public_token'),
     path('api/get_transactions/', views_api.get_transaction.as_view(), name='get-transaction'),
 
     # Below API calls use GET method

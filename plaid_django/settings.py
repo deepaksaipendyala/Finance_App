@@ -25,7 +25,7 @@ SECRET_KEY = os.getenv('PLAID_SECRET')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['financeapp.deepaksaip.repl.co', 'db63c639-8177-4425-86cd-229e7f17dadc.id.repl.co', '10.10.3.136']
+ALLOWED_HOSTS = ['financeapp.deepaksaip.repl.co', 'db63c639-8177-4425-86cd-229e7f17dadc.id.repl.co', '10.10.3.136', 'db63c639-8177-4425-86cd-229e7f17dadc.id.repl.co']
 
 # Application definition
 
